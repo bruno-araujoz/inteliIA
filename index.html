@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Pulse - Plataforma de Notícias de IA</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Inter, Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f172a, #111827, #1e293b);
+      color: #f8fafc;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: min(1200px, 92%);
+      margin: 0 auto;
+      padding: 24px 0 48px;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .hero-left h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 8px;
+      color: #e2e8f0;
+    }
+
+    .hero-left p {
+      color: #94a3b8;
+      max-width: 700px;
+      line-height: 1.6;
+    }
+
+    .hero-right {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .stat-card {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 16px;
+      padding: 16px 20px;
+      min-width: 150px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .stat-card span {
+      display: block;
+      font-size: 0.9rem;
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
+
+    .stat-card strong {
+      font-size: 1.5rem;
+      color: #38bdf8;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #06b6d4, #2563eb);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    .btn-secondary {
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .btn-secondary:hover {
+      background: #334155;
+    }
+
+    .select, .input {
+      background: #0f172a;
+      color: #e2e8f0;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 12px;
+      padding: 12px 14px;
+      outline: none;
+    }
+
+    .status {
+      margin-bottom: 16px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.15);
+      color: #cbd5e1;
+      display: none;
+    }
+
+    .status.show {
+      display: block;
+    }
+
+    .status.success {
+      border-color: rgba(34, 197, 94, 0.4);
+      color: #86efac;
+    }
+
+    .status.error {
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+    }
+
+    .status.info {
+      border-color: rgba(56, 189, 248, 0.4);
+      color: #7dd3fc;
+    }
+
+    .newsletter-box {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.15);
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 22px;
+    }
+
+    .newsletter-box h2 {
+      margin-bottom: 10px;
+      font-size: 1.25rem;
+      color: #e2e8f0;
+    }
+
+    .newsletter-box p {
+      color: #cbd5e1;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 18px;
+    }
+
+    .news-card {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.15);
+      border-radius: 18px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+      transition: 0.2s ease;
+    }
+
+    .news-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+
+    .news-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .tag {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: rgba(37, 99, 235, 0.15);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      white-space: nowrap;
+    }
+
+    .news-card h3 {
+      font-size: 1.1rem;
+      line-height: 1.4;
+      color: #f8fafc;
+    }
+
+    .news-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: #94a3b8;
+      font-size: 0.85rem;
+    }
+
+    .news-card p {
+      color: #cbd5e1;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .news-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    .btn-link {
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .read-badge {
+      font-size: 0.8rem;
+      color: #4ade80;
+      font-weight: 700;
+    }
+
+    .empty {
+      padding: 30px;
+      text-align: center;
+      border: 1px dashed rgba(148, 163, 184, 0.25);
+      border-radius: 16px;
+      color: #94a3b8;
+      background: rgba(15, 23, 42, 0.4);
+    }
+
+    .footer-note {
+      margin-top: 28px;
+      color: #64748b;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        align-items: flex-start;
+      }
+
+      .hero-right {
+        width: 100%;
+      }
+
+      .stat-card {
+        flex: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <div class="hero-left">
+        <h1>AI Pulse 🚀</h1>
+        <p>
+          Plataforma gamificada de curadoria de notícias de Inteligência Artificial.
+          Consuma notícias, acompanhe tendências e ganhe pontos por engajamento.
+        </p>
+      </div>
+
+      <div class="hero-right">
+        <div class="stat-card">
+          <span>Pontuação</span>
+          <strong id="scoreValue">0</strong>
+        </div>
+        <div class="stat-card">
+          <span>Lidas</span>
+          <strong id="readCountValue">0</strong>
+        </div>
+        <div class="stat-card">
+          <span>Nível</span>
+          <strong id="levelValue">1</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="toolbar">
+      <button class="btn btn-primary" id="fetchNewsBtn">Buscar notícias via n8n</button>
+      <button class="btn btn-secondary" id="loadDemoBtn">Carregar demo local</button>
+
+      <select class="select" id="categoryFilter">
+        <option value="all">Todas as categorias</option>
+        <option value="IA Generativa">IA Generativa</option>
+        <option value="Aprendizado de Máquina">Aprendizado de Máquina</option>
+        <option value="Visão Computacional">Visão Computacional</option>
+        <option value="Ética em IA">Ética em IA</option>
+        <option value="Aplicações em Setores">Aplicações em Setores</option>
+      </select>
+
+      <input class="input" id="searchInput" type="text" placeholder="Buscar por título..." />
+    </section>
+
+    <div class="status info show" id="statusBox">
+      Pronto para buscar notícias. Configure a URL do webhook no código JS.
+    </div>
+
+    <section class="newsletter-box">
+      <h2>Resumo Semanal / Newsletter</h2>
+      <p id="newsletterContent">
+Nenhum resumo carregado ainda.
+Clique em "Buscar notícias via n8n" ou "Carregar demo local".
+      </p>
+    </section>
+
+    <section id="newsSection">
+      <div class="empty" id="emptyState">
+        Nenhuma notícia carregada ainda.
+      </div>
+      <div class="grid" id="newsGrid" style="display: none;"></div>
+    </section>
+
+    <p class="footer-note">
+      MVP para processo seletivo da Liga de IA • Frontend em HTML/CSS/JS + automação via n8n
+    </p>
+  </div>
+
+  <script>
+    // ==============================
+    // CONFIGURAÇÃO
+    // ==============================
+    // TROQUE pela URL real do seu webhook do n8n
+    const N8N_WEBHOOK_URL = "http://localhost:5678/webhook/ai-news";
+
+    // ==============================http://localhost:5678/webhook-test/ai-news
+    // ESTADO
+    // ==============================
+    let newsData = [];
+    let readItems = JSON.parse(localStorage.getItem("aiPulseReadItems")) || [];
+    let score = Number(localStorage.getItem("aiPulseScore")) || 0;
+
+    // ==============================
+    // ELEMENTOS
+    // ==============================
+    const fetchNewsBtn = document.getElementById("fetchNewsBtn");
+    const loadDemoBtn = document.getElementById("loadDemoBtn");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const searchInput = document.getElementById("searchInput");
+    const newsGrid = document.getElementById("newsGrid");
+    const emptyState = document.getElementById("emptyState");
+    const newsletterContent = document.getElementById("newsletterContent");
+    const statusBox = document.getElementById("statusBox");
+
+    const scoreValue = document.getElementById("scoreValue");
+    const readCountValue = document.getElementById("readCountValue");
+    const levelValue = document.getElementById("levelValue");
+
+    // ==============================
+    // DADOS DEMO (fallback)
+    // ==============================
+    const demoPayload = {
+      newsletter: `📬 AI Pulse Weekly
+
+1) Open-source models ganharam força nesta semana, com maior adoção por startups e desenvolvedores independentes.
+2) Ferramentas multimodais seguem em alta, principalmente em educação e produtividade.
+3) Regulamentação e governança continuam sendo temas recorrentes nas discussões globais.
+
+Tendência observada:
+- Crescimento de IA aplicada em automação de workflows
+- Expansão de agentes autônomos
+- Maior interesse em custo-benefício entre modelos`,
+      news: [
+        {
+          id: "1",
+          title: "Open-source AI models accelerate startup adoption",
+          summary: "Modelos open-source continuam ganhando tração devido ao menor custo e maior flexibilidade de customização.",
+          source: "TechCrunch",
+          link: "https://techcrunch.com",
+          category: "IA Generativa",
+          date: "2026-04-03"
+        },
+        {
+          id: "2",
+          title: "AI copilots expand into education platforms",
+          summary: "Soluções de copilotos com IA estão sendo integradas em plataformas educacionais para personalização do aprendizado.",
+          source: "VentureBeat",
+          link: "https://venturebeat.com",
+          category: "Aplicações em Setores",
+          date: "2026-04-02"
+        },
+        {
+          id: "3",
+          title: "New discussions around AI governance and safety",
+          summary: "Debates sobre segurança, transparência e uso responsável de modelos de linguagem seguem crescendo.",
+          source: "MIT Technology Review",
+          link: "https://www.technologyreview.com",
+          category: "Ética em IA",
+          date: "2026-04-01"
+        }
+      ]
+    };
+
+    // ==============================
+    // FUNÇÕES DE UI
+    // ==============================
+    function setStatus(message, type = "info") {
+      statusBox.textContent = message;
+      statusBox.className = `status show ${type}`;
+    }
+
+    function saveGamification() {
+      localStorage.setItem("aiPulseReadItems", JSON.stringify(readItems));
+      localStorage.setItem("aiPulseScore", String(score));
+      updateStats();
+    }
+
+    function updateStats() {
+      const readCount = readItems.length;
+      const level = Math.floor(score / 50) + 1;
+
+      scoreValue.textContent = score;
+      readCountValue.textContent = readCount;
+      levelValue.textContent = level;
+    }
+
+    function markAsRead(newsId) {
+      if (!readItems.includes(newsId)) {
+        readItems.push(newsId);
+        score += 10;
+        saveGamification();
+        renderNews();
+        setStatus("Notícia marcada como lida! +10 pontos 🎉", "success");
+      } else {
+        setStatus("Essa notícia já foi contabilizada.", "info");
+      }
+    }
+
+    function renderNews() {
+      const category = categoryFilter.value;
+      const query = searchInput.value.toLowerCase().trim();
+
+      let filtered = [...newsData];
+
+      if (category !== "all") {
+        filtered = filtered.filter(item => item.category === category);
+      }
+
+      if (query) {
+        filtered = filtered.filter(item =>
+          item.title.toLowerCase().includes(query)
+        );
+      }
+
+      if (!filtered.length) {
+        newsGrid.style.display = "none";
+        emptyState.style.display = "block";
+        emptyState.textContent = "Nenhuma notícia encontrada para esse filtro.";
+        return;
+      }
+
+      emptyState.style.display = "none";
+      newsGrid.style.display = "grid";
+
+      newsGrid.innerHTML = filtered.map(item => {
+        const isRead = readItems.includes(item.id);
+
+        return `
+          <article class="news-card">
+            <div class="news-top">
+              <span class="tag">${item.category || "Sem categoria"}</span>
+              ${isRead ? `<span class="read-badge">✔ Lida</span>` : ""}
+            </div>
+
+            <h3>${item.title}</h3>
+
+            <div class="news-meta">
+              <span>📰 ${item.source || "Fonte desconhecida"}</span>
+              <span>📅 ${item.date || "Sem data"}</span>
+            </div>
+
+            <p>${item.summary || "Sem resumo disponível."}</p>
+
+            <div class="news-actions">
+              <a class="btn btn-secondary btn-link" href="${item.link}" target="_blank" rel="noopener noreferrer">
+                Ler fonte
+              </a>
+
+              <button class="btn btn-primary" onclick="markAsRead('${item.id}')">
+                ${isRead ? "Lida" : "Marcar como lida (+10)"}
+              </button>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    // Expor no escopo global para o onclick funcionar
+    window.markAsRead = markAsRead;
+
+    function loadPayload(payload) {
+      if (!payload || !Array.isArray(payload.news)) {
+        setStatus("Payload inválido recebido do n8n.", "error");
+        return;
+      }
+
+      newsData = payload.news;
+      newsletterContent.textContent = payload.newsletter || "Resumo não disponível.";
+      renderNews();
+      setStatus("Notícias carregadas com sucesso!", "success");
+    }
+
+    // ==============================
+    // INTEGRAÇÃO COM N8N
+    // ==============================
+    async function fetchNewsFromN8N() {
+  setStatus("Buscando notícias no n8n...", "info");
+
+  try {
+    const response = await fetch(N8N_WEBHOOK_URL, { method: "GET" });
+
+    if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+
+    const data = await response.json();
+
+    if (!data.success || !Array.isArray(data.highlights)) {
+      throw new Error("Formato inválido");
+    }
+
+    // Adapta para o formato que o loadPayload espera
+    loadPayload({
+      newsletter: `📬 AI Pulse — Gerado em ${new Date(data.generatedAt).toLocaleString('pt-BR')}`,
+      news: data.highlights.map(h => ({
+        id: h.link,
+        title: h.title,
+        summary: h.summary,
+        source: h.source,
+        link: h.link,
+        category: h.category,
+        date: data.generatedAt?.split('T')[0]
+      }))
+    });
+
+  } catch (error) {
+    console.error(error);
+    setStatus("Falha ao conectar com o n8n. Carregando demo local.", "error");
+    loadPayload(demoPayload);
+  }
+}
+
+    // ==============================
+    // EVENTOS
+    // ==============================
+    fetchNewsBtn.addEventListener("click", fetchNewsFromN8N);
+
+    loadDemoBtn.addEventListener("click", () => {
+      loadPayload(demoPayload);
+      setStatus("Modo demo local carregado.", "info");
+    });
+
+    categoryFilter.addEventListener("change", renderNews);
+    searchInput.addEventListener("input", renderNews);
+
+    // ==============================
+    // INIT
+    // ==============================
+    updateStats();
+  </script>
+</body>
+</html>
