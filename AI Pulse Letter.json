@@ -1,0 +1,745 @@
+{
+  "name": "AI Pulse Letter",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://news.google.com/rss/search?q=artificial+intelligence&hl=en-US&gl=US&ceid=US:en",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        32
+      ],
+      "id": "db6845e8-36e4-4537-ae87-7079889635ef",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {
+        "url": "https://techcrunch.com/feed/",
+        "options": {
+          "customFields": "",
+          "ignoreSSL": false
+        }
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        192
+      ],
+      "id": "15d31ee7-7682-4fd4-a743-26522b159960",
+      "name": "RSS Read1"
+    },
+    {
+      "parameters": {
+        "url": "https://venturebeat.com/feed/",
+        "options": {
+          "customFields": "",
+          "ignoreSSL": false
+        }
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        336
+      ],
+      "id": "4fbdd713-f11e-433a-a4e4-17abbf0a3739",
+      "name": "RSS Read2"
+    },
+    {
+      "parameters": {
+        "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed/",
+        "options": {
+          "customFields": "",
+          "ignoreSSL": false
+        }
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        480
+      ],
+      "id": "be756977-b9f4-4f1a-b399-a98e66dc9347",
+      "name": "RSS Read3"
+    },
+    {
+      "parameters": {
+        "url": "https://openai.com/news/rss.xml",
+        "options": {
+          "customFields": "",
+          "ignoreSSL": false
+        }
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        640
+      ],
+      "id": "de86f450-4d64-45ad-9206-95500a43ee97",
+      "name": "RSS Read4"
+    },
+    {
+      "parameters": {
+        "url": "https://blog.google/technology/ai/rss/",
+        "options": {
+          "customFields": "",
+          "ignoreSSL": false
+        }
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        800
+      ],
+      "id": "927bd437-28f0-4279-b6e7-69e494e37945",
+      "name": "RSS Read5"
+    },
+    {
+      "parameters": {
+        "url": "https://www.anthropic.com/news",
+        "options": {
+          "customFields": "",
+          "ignoreSSL": false
+        }
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        960
+      ],
+      "id": "66c435d2-a1ae-4289-b99f-3823042a56db",
+      "name": "RSS Read6",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://huggingface.co/blog/feed.xml",
+        "options": {
+          "customFields": "",
+          "ignoreSSL": false
+        }
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        1120
+      ],
+      "id": "e3842473-60af-41ef-a1c6-713e2d408198",
+      "name": "RSS Read7",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://rss.arxiv.org/rss/cs.AI",
+        "options": {
+          "customFields": "",
+          "ignoreSSL": false
+        }
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        1296
+      ],
+      "id": "3a8aeb9a-0886-445a-bf9e-f1724bc52cfd",
+      "name": "RSS Read8",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ai-news-subscribe",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -688,
+        640
+      ],
+      "id": "4023d966-22e1-4717-be4b-f43ddec4cb84",
+      "name": "Webhook",
+      "webhookId": "688ed9f8-3015-478a-ba43-d9074a5edda0"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        432,
+        144
+      ],
+      "id": "599dbc5c-077c-472b-8963-afdbcb1d0c41",
+      "name": "Merge"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        816,
+        352
+      ],
+      "id": "855585d8-183c-4c1c-ad6f-883efef93508",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        432,
+        544
+      ],
+      "id": "4f632222-0108-4ea2-835e-51b19b92006c",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        384,
+        864
+      ],
+      "id": "281ff2ef-14d9-4219-88b4-8c63cc4836ca",
+      "name": "Merge3"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        432,
+        1168
+      ],
+      "id": "d5d227ff-b004-4379-bbf0-94380d8614c9",
+      "name": "Merge4"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        800,
+        1008
+      ],
+      "id": "7adfdd16-007b-419c-8d7d-1b825d469caf",
+      "name": "Merge5"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1104,
+        656
+      ],
+      "id": "bf5de434-8237-4a19-b6e5-e8eabcf21caa",
+      "name": "Merge6"
+    },
+    {
+      "parameters": {
+        "jsCode": "function stripHtml(html) {\n  if (!html) return '';\n  return html\n    .replace(/<[^>]*>/g, ' ')\n    .replace(/&nbsp;/g, ' ')\n    .replace(/&amp;/g, '&')\n    .replace(/&quot;/g, '\"')\n    .replace(/&#39;/g, \"'\")\n    .replace(/\\s+/g, ' ')\n    .trim();\n}\n\nfunction getSourceFromLink(link) {\n  try {\n    const url = new URL(link);\n    return url.hostname.replace('www.', '');\n  } catch {\n    return 'unknown';\n  }\n}\n\nreturn items.map(item => {\n  const data = item.json;\n\n  const title = data.title || '';\n  const link = data.link || data.guid || '';\n  const publishedAt = data.isoDate || data.pubDate || data.published || new Date().toISOString();\n\n  const rawSummary =\n    data.contentSnippet ||\n    data.content ||\n    data.summary ||\n    data.description ||\n    '';\n\n  const summary = stripHtml(rawSummary).slice(0, 500);\n\n  const imageUrl =\n    data.enclosure?.url ||\n    data.image?.url ||\n    data.thumbnail ||\n    null;\n\n  return {\n    json: {\n      title: stripHtml(title),\n      link,\n      source: getSourceFromLink(link),\n      publishedAt,\n      summary,\n      imageUrl,\n      rawContent: stripHtml(data.content || data.description || ''),\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1456,
+        656
+      ],
+      "id": "dabdca1a-85ab-45e6-83a1-95ecca8a7a47",
+      "name": "Code - Padroniza e Resume"
+    },
+    {
+      "parameters": {
+        "jsCode": "function normalizeTitle(title) {\n  return (title || '')\n    .toLowerCase()\n    .normalize('NFD')\n    .replace(/[\\u0300-\\u036f]/g, '')\n    .replace(/[^\\w\\s]/g, '')\n    .replace(/\\s+/g, ' ')\n    .trim();\n}\n\nconst seenLinks = new Set();\nconst seenTitles = new Set();\nconst uniqueItems = [];\n\nfor (const item of items) {\n  const news = item.json;\n\n  const link = (news.link || '').trim();\n  const normalizedTitle = normalizeTitle(news.title);\n\n  const linkKey = link.toLowerCase();\n  const titleKey = normalizedTitle;\n\n  if (linkKey && seenLinks.has(linkKey)) continue;\n  if (titleKey && seenTitles.has(titleKey)) continue;\n\n  if (linkKey) seenLinks.add(linkKey);\n  if (titleKey) seenTitles.add(titleKey);\n\n  uniqueItems.push(item);\n}\n\nreturn uniqueItems;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1808,
+        656
+      ],
+      "id": "a4125ef8-2848-444c-976e-7c8c3ae37ec6",
+      "name": "Code - Remove Duplicados"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Você é o editor principal do IA Pulse, um site de curadoria de notícias sobre inteligência artificial.\n\nVocê receberá uma lista de notícias coletadas de múltiplas fontes RSS.\n\nSua tarefa é selecionar e transformar as notícias em um JSON válido para exibição no site.\n\nREGRAS:\n1. Priorize notícias sobre:\n- lançamentos de modelos de IA\n- atualizações da OpenAI, Google DeepMind, Anthropic, Meta, Microsoft, NVIDIA, Hugging Face\n- produtos de IA\n- agentes de IA\n- startups de IA\n- funding/investimentos em IA\n- regulamentação e política pública de IA\n- open source relevante\n- infraestrutura e chips para IA\n- aplicações empresariais relevantes\n\n2. Ignore ou descarte:\n- conteúdo promocional\n- webinars\n- podcasts\n- notícias muito vagas\n- posts sem impacto real\n- conteúdo repetitivo ou irrelevante\n\n3. Se várias notícias tratarem do mesmo tema, consolide em apenas uma.\n\n4. Selecione no máximo 6 notícias finais.\n\n5. Responda APENAS com JSON válido, sem markdown, sem explicações.\n\nFORMATO DE SAÍDA:\n{\n  \"generatedAt\": \"ISO_DATE\",\n  \"highlights\": [\n    {\n      \"title\": \"título refinado e limpo\",\n      \"summary\": \"resumo editorial em 2 a 3 frases\",\n      \"source\": \"domínio da fonte\",\n      \"link\": \"url da notícia\",\n      \"category\": \"uma destas categorias: Modelos de IA, Empresas, Produtos, Mercado, Regulação, Open Source, Infraestrutura, Pesquisa, Startups, Agentes de IA\",\n      \"relevanceScore\": 0-10,\n      \"impactLevel\": \"Baixo, Médio ou Alto\",\n      \"whyItMatters\": \"1 frase explicando por que isso importa\",\n      \"tags\": [\"tag1\", \"tag2\", \"tag3\"]\n    }\n  ]\n}\n\nLISTA DE NOTÍCIAS:\n{{ $json.newsBlock }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        2768,
+        656
+      ],
+      "id": "c673cd37-0cc1-4c81-9df4-ef158f55fad2",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log(\"JSON recebido:\", JSON.stringify($json));\nconst raw =\n  $json.output ||\n  $json.text ||\n  $json.response ||\n  $json.content ||\n  '';\n  // Remove blocos markdown ```json ... ```\nconst cleaned = (typeof raw === 'string' ? raw : JSON.stringify(raw))\n  .replace(/```json\\s*/gi, '')\n  .replace(/```\\s*/gi, '')\n  .trim();\n\nlet parsed;\ntry {\n  parsed = JSON.parse(cleaned);\n} catch (error) {\n  parsed = {\n    generatedAt: new Date().toISOString(),\n    highlights: []\n  };\n}\n\nreturn [\n  {\n    json: {\n      success: true,\n      generatedAt: parsed.generatedAt || new Date().toISOString(),\n      highlights: Array.isArray(parsed.highlights) ? parsed.highlights : []\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3184,
+        656
+      ],
+      "id": "a0c9693f-aa6d-4a1e-9260-da00dfa75f8d",
+      "name": "Code - Formata Saída"
+    },
+    {
+      "parameters": {
+        "jsCode": "const allItems = $input.all();\n\nconst newsBlock = allItems.map((item, index) => {\n  const news = item.json;\n  return `\nNotícia ${index + 1}\nTítulo: ${news.title || 'Sem título'}\nFonte: ${news.source || 'Sem fonte'}\nData: ${news.publishedAt || 'Sem data'}\nLink: ${news.link || 'Sem link'}\nResumo base: ${news.summary || 'Sem resumo'}\n`.trim();\n}).join('\\n\\n----------------------\\n\\n');\n\nreturn [\n  {\n    json: {\n      newsBlock\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2560,
+        656
+      ],
+      "id": "8c4ca6d4-7beb-4777-8e0e-8c5421e174a4",
+      "name": "Code - Prompt AI"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Ordena do mais recente para o mais antigo\nitems.sort((a, b) => {\n  return new Date(b.json.publishedAt) - new Date(a.json.publishedAt);\n});\n\n// Mantém no máximo 15 notícias para a IA\nreturn items.slice(0, 15);"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2304,
+        656
+      ],
+      "id": "bcb242be-94a9-4824-82c5-579be7348ca3",
+      "name": "Code - AI Token Control"
+    },
+    {
+      "parameters": {
+        "jsCode": "const blockedTerms = [\n  'podcast',\n  'webinar',\n  'sponsored',\n  'advertisement',\n  'event recap'\n];\n\nconst filtered = items.filter(item => {\n  const news = item.json;\n\n  const title = (news.title || '').toLowerCase();\n  const summary = (news.summary || '').toLowerCase();\n\n  if (!news.title || news.title.length < 8) return false;\n  if (!news.link) return false;\n  if (!news.summary || news.summary.length < 40) return false;\n\n  for (const term of blockedTerms) {\n    if (title.includes(term) || summary.includes(term)) {\n      return false;\n    }\n  }\n\n  return true;\n});\n\nreturn filtered;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2032,
+        656
+      ],
+      "id": "d8862249-e720-44ff-8ba0-6e9ad60ddd87",
+      "name": "Code - Filtro de Noticias"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2656,
+        912
+      ],
+      "id": "b66b0c63-2ec9-4d83-bd8a-ca16a8e0beb1",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ie3E0EeMeaPcm6dJ",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Webhook').item.json.body.email }}",
+        "subject": "🤖 AI Pulse — Resumo Semanal de IA",
+        "message": "=<h2>🤖 AI Pulse — Notícias da Semana</h2>\n<p>Gerado em: {{ new Date($json.generatedAt).toLocaleString('pt-BR') }}</p>\n<hr/>\n{{ $json.highlights.map(h => `\n<div style=\"margin-bottom:24px\">\n  <h3>${h.title}</h3>\n  <p><strong>Categoria:</strong> ${h.category} | <strong>Impacto:</strong> ${h.impactLevel} | <strong>Score:</strong> ${h.relevanceScore}/10</p>\n  <p>${h.summary}</p>\n  <p><em>${h.whyItMatters}</em></p>\n  <a href=\"${h.link}\">Ler mais →</a>\n</div>\n`).join('<hr/>') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        3392,
+        656
+      ],
+      "id": "b1d86491-9508-46ca-aea9-2b610ee7e483",
+      "name": "Send a message",
+      "webhookId": "69de2724-c1c7-4b32-afcc-09548cedd068",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "vtGfuIcRxdLPR0E2",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{ \"ok\": true }",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        3600,
+        656
+      ],
+      "id": "54ccf51d-cd27-478d-937d-b2a661ce73d6",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "RSS Read7": {
+      "main": [
+        [
+          {
+            "node": "Merge4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read8": {
+      "main": [
+        [
+          {
+            "node": "Merge4",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "RSS Read5": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read6": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "RSS Read3": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read4": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "RSS Read2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Merge4": {
+      "main": [
+        [
+          {
+            "node": "Merge5",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge3": {
+      "main": [
+        [
+          {
+            "node": "Merge5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Merge6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge5": {
+      "main": [
+        [
+          {
+            "node": "Merge6",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read4",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read5",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read6",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read7",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge6": {
+      "main": [
+        [
+          {
+            "node": "Code - Padroniza e Resume",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Padroniza e Resume": {
+      "main": [
+        [
+          {
+            "node": "Code - Remove Duplicados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Remove Duplicados": {
+      "main": [
+        [
+          {
+            "node": "Code - Filtro de Noticias",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code - Formata Saída",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Formata Saída": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Prompt AI": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - AI Token Control": {
+      "main": [
+        [
+          {
+            "node": "Code - Prompt AI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Filtro de Noticias": {
+      "main": [
+        [
+          {
+            "node": "Code - AI Token Control",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "eab65f6b-9a53-4320-b6e4-44ee8b63ab47",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "349d65507c6707155951561f5de398cd876334c4c85eae804f819788dc6d8ea2"
+  },
+  "id": "fuJcPgAYGUiZkG8Q",
+  "tags": []
+}

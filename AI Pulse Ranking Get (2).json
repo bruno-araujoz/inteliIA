@@ -1,0 +1,85 @@
+{
+  "name": "AI Pulse Ranking Post",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "ai-news-ranking-get",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "672c6fb5-7bba-43a2-8ddd-df617a9c92ad",
+      "name": "Webhook",
+      "webhookId": "5ea9414c-0339-429b-8583-e9e05f86d3b0"
+    },
+    {
+      "parameters": {
+        "jsCode": "const store = $getWorkflowStaticData('global');\nreturn [{ json: { ranking: store.ranking || [] } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "6bc7ed1c-db5a-49d6-ba37-4badd434c9d6",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        416,
+        0
+      ],
+      "id": "1c7ef37b-c4c5-4588-9612-136400e8156e",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "0669593b-ab3c-4d58-ab6c-3c3bc504465d",
+  "meta": {
+    "instanceId": "349d65507c6707155951561f5de398cd876334c4c85eae804f819788dc6d8ea2"
+  },
+  "id": "tgieaKndM1G6AVEU",
+  "tags": []
+}

@@ -1,0 +1,86 @@
+{
+  "name": "AI Pulse Ranking Get",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ai-news-ranking-post",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "62ff9e5d-b52f-4db5-b1e4-9ac1167ff904",
+      "name": "Webhook",
+      "webhookId": "f5068f60-6ee4-4a53-a826-e6b6f94381c8"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Lê o ranking atual salvo (use Static Data do n8n)\nconst store  = $getWorkflowStaticData('global');\nconst { email, score } = $json.body;\n\nif (!store.ranking) store.ranking = [];\n\nconst idx = store.ranking.findIndex(r => r.email === email);\nif (idx >= 0) {\n  store.ranking[idx].score = Math.max(store.ranking[idx].score, score);\n} else {\n  store.ranking.push({ email, score });\n}\n\nstore.ranking.sort((a, b) => b.score - a.score);\nstore.ranking = store.ranking.slice(0, 10);\n\nreturn [{ json: { ok: true } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "7b6f2fc2-b7c6-4f94-9e36-d448c5f64cfb",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\"ok\": true}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        416,
+        0
+      ],
+      "id": "b97004be-23f4-4a3c-b98b-db5f4ea15519",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "c43c8aaa-1020-4917-b61f-3bd8b74499f0",
+  "meta": {
+    "instanceId": "349d65507c6707155951561f5de398cd876334c4c85eae804f819788dc6d8ea2"
+  },
+  "id": "KjPvYsG8U5azv22u",
+  "tags": []
+}
