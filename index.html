@@ -387,6 +387,137 @@
       font-size: 0.95rem;
     }
 
+    /* ── RANKING ── */
+    .ranking-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 32px;
+      margin-bottom: 28px;
+    }
+
+    .ranking-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .ranking-header h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .btn-refresh-ranking {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 10px;
+      padding: 7px 14px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-family: 'Space Mono', monospace;
+      transition: 0.2s;
+    }
+
+    .btn-refresh-ranking:hover { border-color: var(--accent); color: var(--accent); }
+
+    .ranking-list { display: flex; flex-direction: column; gap: 8px; }
+
+    .ranking-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: rgba(8, 12, 20, 0.5);
+      border: 1px solid var(--border);
+      transition: 0.2s;
+    }
+
+    .ranking-item.is-me {
+      border-color: rgba(56, 189, 248, 0.3);
+      background: rgba(56, 189, 248, 0.05);
+    }
+
+    .ranking-pos {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      width: 28px;
+      text-align: center;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .ranking-pos.gold   { color: #fbbf24; }
+    .ranking-pos.silver { color: #94a3b8; }
+    .ranking-pos.bronze { color: #d97706; }
+
+    .ranking-medal { font-size: 1.1rem; flex-shrink: 0; }
+
+    .ranking-info { flex: 1; min-width: 0; }
+
+    .ranking-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ranking-name .you-badge {
+      font-size: 0.7rem;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 2px 8px;
+      margin-left: 8px;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .ranking-score {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .ranking-bar-wrap {
+      width: 80px;
+      height: 4px;
+      background: rgba(148, 163, 184, 0.1);
+      border-radius: 999px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .ranking-bar {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #38bdf8, #6366f1);
+      transition: width 0.6s ease;
+    }
+
+    .ranking-empty {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      padding: 20px;
+    }
+
+    .ranking-loading {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-family: 'Space Mono', monospace;
+      padding: 20px;
+    }
+
     .footer-note {
       margin-top: 36px;
       color: #475569;
@@ -440,7 +571,7 @@
         <h2>📬 Receba a Newsletter</h2>
       </div>
       <p class="signup-desc">
-        Cadastre seu email para receber as notícias curadas por IA diretamente na sua caixa de entrada — imediatamente após o cadastro.
+        Cadastre seu email e seu Slack para receber as notícias curadas por IA diretamente na sua caixa de entrada e no Slack — imediatamente após o cadastro.
       </p>
       <div class="signup-form">
         <div class="form-group">
@@ -480,6 +611,17 @@
       <p id="newsletterContent">Nenhum resumo carregado ainda. Clique em "Buscar notícias via n8n" ou "Carregar demo local".</p>
     </section>
 
+    <!-- RANKING -->
+    <section class="ranking-section">
+      <div class="ranking-header">
+        <h2>🏆 Top 10 — Ranking Global</h2>
+        <button class="btn-refresh-ranking" onclick="loadRanking()">↻ Atualizar</button>
+      </div>
+      <div class="ranking-list" id="rankingList">
+        <div class="ranking-loading">Carregando ranking...</div>
+      </div>
+    </section>
+
     <!-- NEWS GRID -->
     <section id="newsSection">
       <div class="empty" id="emptyState">Nenhuma notícia carregada ainda.</div>
@@ -495,6 +637,8 @@
     // ==============================
     const N8N_WEBHOOK_URL      = "https://bruno-araujo.app.n8n.cloud/webhook/ai-news";
     const N8N_SUBSCRIBE_URL    = "https://bruno-araujo.app.n8n.cloud/webhook/ai-news-subscribe";
+    const N8N_RANKING_GET_URL  = "https://bruno-araujo.app.n8n.cloud/webhook/ai-news-ranking-get";
+    const N8N_RANKING_POST_URL = "https://bruno-araujo.app.n8n.cloud/webhook/ai-news-ranking-post";
     // Troque pelos webhooks reais do n8n Cloud após subir
 
     // ==============================
@@ -564,6 +708,7 @@
         score += 10;
         saveGamification();
         renderNews();
+        pushScoreToRanking();
         setStatus("Notícia marcada como lida! +10 pontos 🎉", "success");
       } else {
         setStatus("Essa notícia já foi contabilizada.", "info");
@@ -659,6 +804,88 @@
     }
 
     // ==============================
+    // RANKING
+    // ==============================
+    const MEDALS = ["🥇", "🥈", "🥉"];
+    const POS_CLASS = ["gold", "silver", "bronze"];
+
+    async function loadRanking() {
+      const list = document.getElementById("rankingList");
+      list.innerHTML = `<div class="ranking-loading">⏳ Carregando ranking...</div>`;
+      try {
+        const res  = await fetch(N8N_RANKING_GET_URL);
+        const data = await res.json();
+        const top  = Array.isArray(data) ? data : (data.ranking || []);
+        renderRanking(top);
+      } catch {
+        // fallback: mostra só o usuário atual se o n8n não estiver disponível
+        const myEmail = localStorage.getItem("aiPulseEmail");
+        const myScore = Number(localStorage.getItem("aiPulseScore")) || 0;
+        if (myEmail && myScore > 0) {
+          renderRanking([{ email: myEmail, score: myScore }]);
+        } else {
+          list.innerHTML = `<div class="ranking-empty">Ranking indisponível no momento.</div>`;
+        }
+      }
+    }
+
+    function renderRanking(top) {
+      const list    = document.getElementById("rankingList");
+      const myEmail = localStorage.getItem("aiPulseEmail");
+      const maxScore = top[0]?.score || 1;
+
+      if (!top.length) {
+        list.innerHTML = `<div class="ranking-empty">Nenhuma pontuação registrada ainda. Seja o primeiro! 🚀</div>`;
+        return;
+      }
+
+      list.innerHTML = top.slice(0, 10).map((entry, i) => {
+        const isMe   = myEmail && entry.email === myEmail;
+        const medal  = i < 3 ? MEDALS[i] : "";
+        const pClass = i < 3 ? POS_CLASS[i] : "";
+        const pct    = Math.round((entry.score / maxScore) * 100);
+        const name   = maskEmail(entry.email);
+
+        return `
+          <div class="ranking-item ${isMe ? 'is-me' : ''}">
+            <span class="ranking-pos ${pClass}">${i + 1}</span>
+            <span class="ranking-medal">${medal}</span>
+            <div class="ranking-info">
+              <div class="ranking-name">
+                ${name}
+                ${isMe ? `<span class="you-badge">você</span>` : ""}
+              </div>
+            </div>
+            <div class="ranking-bar-wrap">
+              <div class="ranking-bar" style="width:${pct}%"></div>
+            </div>
+            <span class="ranking-score">${entry.score} pts</span>
+          </div>`;
+      }).join("");
+    }
+
+    function maskEmail(email) {
+      if (!email) return "Anônimo";
+      const [user, domain] = email.split("@");
+      if (!domain) return email;
+      const masked = user.slice(0, 3) + "***";
+      return `${masked}@${domain}`;
+    }
+
+    async function pushScoreToRanking() {
+      const email = localStorage.getItem("aiPulseEmail");
+      if (!email || score === 0) return;
+      try {
+        await fetch(N8N_RANKING_POST_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, score })
+        });
+        loadRanking();
+      } catch { /* silencioso */ }
+    }
+
+    // ==============================
     // CADASTRO DE NEWSLETTER
     // ==============================
     async function handleSubscribe() {
@@ -689,6 +916,7 @@
         if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
 
         setSignupStatus("✅ Cadastro realizado! Verifique seu email em instantes.", "success");
+        localStorage.setItem("aiPulseEmail", email);
         document.getElementById("signupEmail").value = "";
       } catch (error) {
         console.error(error);
@@ -711,6 +939,7 @@
     // INIT
     // ==============================
     updateStats();
+    loadRanking();
   </script>
 </body>
 </html>
