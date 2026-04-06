@@ -7,7 +7,7 @@
  
 ## 📌 Sobre o Projeto
  
-O **AI Pulse** é uma plataforma de curadoria automatizada de notícias sobre Inteligência Artificial. O sistema coleta notícias de múltiplas fontes RSS, filtra e consolida o conteúdo usando IA (Google Gemini), e entrega um resumo curado via site interativo e newsletter multicanal (Email, Slack e Telegram).
+O **AI Pulse** é uma plataforma de curadoria automatizada de notícias sobre Inteligência Artificial. O sistema coleta notícias de múltiplas fontes RSS, filtra e consolida o conteúdo usando IA (Google Gemini), e entrega um resumo curado via site interativo e newsletter no email.
  
 O projeto resolve o problema da **fragmentação informacional** no mundo da IA — centralizando, filtrando e resumindo o que realmente importa para a comunidade do Inteli Academy.
  
@@ -50,7 +50,7 @@ Code - Formata Saída
         ↓
 Respond to Webhook → Site HTML
         ↓
-Newsletter (Email + Slack + Telegram)
+Newsletter Email
 ```
  
 ---
@@ -112,7 +112,7 @@ O `Code - Prompt AI` monta o prompt editorial e o `AI Agent` (Gemini) seleciona 
 - Tags
  
 ### 7. Entrega
-O `Code - Formata Saída` estrutura o JSON final e o `Respond to Webhook` devolve para o site. Paralelamente, a newsletter é enviada por Email, Slack e Telegram.
+O `Code - Formata Saída` estrutura o JSON final e o `Respond to Webhook` devolve para o site. Paralelamente, a newsletter é enviada por Email.
  
 ---
  
@@ -129,7 +129,7 @@ O site foi desenvolvido em HTML/CSS/JS puro com:
 - **Design responsivo** dark mode
  
 ### Acesso
-🔗 [Site no GitHub Pages](https://SEU-USUARIO.github.io/SEU-REPO)
+🔗 [Site no GitHub Pages]( https://github.com/bruno-araujoz/inteliIA.git)
  
 ---
  
@@ -144,7 +144,7 @@ O site foi desenvolvido em HTML/CSS/JS puro com:
 **1. Clonar o repositório**
 ```bash
 git clone https://github.com/SEU-USUARIO/SEU-REPO.git
-cd SEU-REPO
+cd inteliIA
 ```
  
 **2. Subir o n8n localmente**
@@ -179,7 +179,7 @@ Clique em **"Buscar notícias via n8n"** no site.
 ### n8n Cloud
 1. Crie conta em [n8n.io](https://n8n.io)
 2. Importe o `workflow.json`
-3. Configure as credenciais (Gemini, Gmail, Slack, Telegram)
+3. Configure as credenciais (Gemini, Gmail)
 4. Ative o workflow
 5. Copie a **Production URL** do nó Webhook
  
@@ -192,13 +192,12 @@ Clique em **"Buscar notícias via n8n"** no site.
  
 ## 📬 Newsletter Multicanal
  
-O sistema envia automaticamente o resumo curado por três canais:
+O sistema envia automaticamente o resumo curado por um canal:
  
 | Canal | Tecnologia |
 |---|---|
 | 📧 Email | Gmail via n8n + SMTP |
-| 💬 Slack | Slack Bot via n8n |
-| 📱 Telegram | Telegram Bot via n8n |
+
  
 ---
  
@@ -226,7 +225,7 @@ O site possui um sistema de pontuação para engajamento:
 ## 🧪 Critérios de Criatividade Implementados
  
 - ✅ **Sistema de gamificação** — pontuação e níveis por engajamento
-- ✅ **Newsletter multicanal** — Email, Slack e Telegram automatizados
+- ✅ **Newsletter Email** — Email
 - ✅ **Score de relevância e impacto** — cada notícia tem score 0-10 e nível de impacto
 - ✅ **"Why it matters"** — análise editorial do Gemini explicando a importância de cada notícia
 - ✅ **Deduplicação automática** — sistema inteligente de remoção de duplicatas
